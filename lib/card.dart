@@ -4,8 +4,10 @@ import 'game.dart';
 import 'models/card_model.dart';
 
 class CardWidget extends StatelessWidget {
-  final CardModel card;
+  final String code;
   final Game game;
+
+  CardModel card() => cartas[code] ?? cartas['E001']!;
 
   botonesPatron() => [
         IconButton(
@@ -13,21 +15,21 @@ class CardWidget extends StatelessWidget {
           color: Colors.red,
           iconSize: 48,
           icon: const Icon(Icons.cancel),
-          onPressed: !card.rechazar ? null : game.rechazar,
+          onPressed: !card().rechazar ? null : game.rechazar,
         ),
         IconButton(
           disabledColor: Colors.grey,
           color: Colors.blue,
           iconSize: 48,
           icon: const Icon(Icons.watch_later),
-          onPressed: !card.postergar ? null : game.postergar,
+          onPressed: !card().postergar ? null : game.postergar,
         ),
         IconButton(
           disabledColor: Colors.grey,
           color: Colors.green,
           iconSize: 48,
           icon: const Icon(Icons.check_circle),
-          onPressed: !card.aceptar ? null : game.aceptar,
+          onPressed: !card().aceptar ? null : game.aceptar,
         ),
       ];
 
@@ -37,19 +39,19 @@ class CardWidget extends StatelessWidget {
           color: Colors.grey.shade800,
           iconSize: 48,
           icon: const Icon(Icons.backspace),
-          onPressed: !card.rechazar ? null : game.rechazar,
+          onPressed: !card().rechazar ? null : game.rechazar,
         ),
         IconButton(
           disabledColor: Colors.grey,
           color: Colors.grey.shade800,
           iconSize: 48,
           icon: const Icon(Icons.announcement),
-          onPressed: !card.aceptar ? null : game.aceptar,
+          onPressed: !card().aceptar ? null : game.aceptar,
         ),
       ];
 
   const CardWidget({
-    required this.card,
+    required this.code,
     required this.game,
     Key? key,
   }) : super(key: key);
@@ -80,7 +82,7 @@ class CardWidget extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: card.tipo.color,
+                  colors: card().tipo.color,
                 ),
               ),
               //child: const Icon(Icons.money),
@@ -92,7 +94,7 @@ class CardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  card.titulo,
+                  card().titulo,
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -101,7 +103,7 @@ class CardWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  card.descripcion,
+                  card().descripcion,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.grey,
@@ -110,7 +112,7 @@ class CardWidget extends StatelessWidget {
                 ), // Descripción
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: card.tipo == tipoEvento
+                  children: card().tipo == tipoEvento
                       ? botonesEvento()
                       : botonesPatron(),
                 ),

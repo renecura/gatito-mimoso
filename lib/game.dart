@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +11,15 @@ final valorFuerzas = StateProvider<double>((ref) => 0.5);
 final valorEstablishment = StateProvider<double>((ref) => 0.5);
 final valorGente = StateProvider<double>((ref) => 0.5);
 
-final deck = StateProvider<List<CardModel>>(
-    (ref) => [cartas[1], cartas[2], cartas[3], cartas[0]]);
+final deck =
+    StateProvider<List<String>>((ref) => ['C001', 'E001', 'F001', 'G001']);
+
+final valores = {
+  'C': valorCasta,
+  'F': valorFuerzas,
+  'E': valorEstablishment,
+  'G': valorGente,
+};
 
 class Game extends ConsumerWidget {
   final CardSwiperController controller = CardSwiperController();
@@ -24,23 +30,13 @@ class Game extends ConsumerWidget {
   rechazar() => controller.swipeLeft();
   postergar() => controller.swipeTop();
 
-  // agregarCarta(CardModel card) {
-  //   setState(() {
-  //     deck.add(CardWidget(card: card, game: this));
-  //   });
-  // }
+  agregarCarta(String code, WidgetRef ref) {
+    ref.read(deck.notifier).state.add(code);
+  }
 
-  // aumentarBarra(int patron) {
-  //   setState(() {
-  //     barras[patron] = clampDouble(barras[patron] + 0.1, 0, 1);
-  //   });
-  // }
-
-  // disminuirBarra(int patron) {
-  //   setState(() {
-  //     barras[patron] = clampDouble(barras[patron] - 0.1, 0, 1);
-  //   });
-  // }
+  modificarValor(String target, double delta, WidgetRef ref) {
+    ref.read(valores[target]!.notifier).state += delta;
+  }
 
   AccionCarta swipeToAction(CardSwiperDirection direction) {
     switch (direction) {
@@ -55,26 +51,30 @@ class Game extends ConsumerWidget {
     }
   }
 
-  // resolverCarta(int index, AccionCarta accion) {
-  //   debugPrint("Carta ejecutada: ${deck[index].card.titulo}");
-  //   //controller.undo();
+  resolverCarta(String code, AccionCarta accion, WidgetRef ref) {
+    RegExp exp = RegExp(r'(?<Op>[\+\-\@])(?<Arg>\w+),*');
 
-  //   // Verifica si la acción puede ejecutarse
+    String cons = cartas[code]?.consecuencias(accion) ?? '';
 
-  //   setState(() {
-  //     // Ejecuta las consecuencias de la carta
-  //     deck.add(CardWidget(card: cartas[2], game: this));
-  //     // Resuelve los efectos de los patrones
-  //     if (accion == AccionCarta.aceptar) {
-  //       aumentarBarra(casta);
-  //     } else {
-  //       disminuirBarra(casta);
-  //     }
-  //     // Agrega las cartas al mazo
-  //     // Resuelve los efectos de la ansiedad
-  //     // Elimina la carta resuelta del mazo
-  //   });
-  // }
+    for (final m in exp.allMatches(cons)) {
+      String op = m.namedGroup("Op")!;
+      String arg = m.namedGroup("Arg")!;
+      debugPrint("OP: $op Arg: $arg");
+
+      switch (op) {
+        case "+":
+          modificarValor(arg, 0.1, ref);
+          break;
+        case "-":
+          modificarValor(arg, -0.1, ref);
+          break;
+        case "@":
+          agregarCarta(arg, ref);
+        default:
+          debugPrint("Consecuencia desconocida.");
+      }
+    }
+  }
 
   bool _onSwipe(
     WidgetRef ref,
@@ -85,12 +85,11 @@ class Game extends ConsumerWidget {
     debugPrint(
       'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
     );
-    // resolverCarta(previousIndex, swipeToAction(direction));
-    // setState(() {
-    //   current = currentIndex!;
-    // });
-    ref.read(valorGente.notifier).state += 0.1;
-    ref.read(deck).add(cartas[1]);
+    resolverCarta(
+      ref.watch(deck)[previousIndex],
+      swipeToAction(direction),
+      ref,
+    );
     return true;
   }
 
@@ -155,7 +154,7 @@ class Game extends ConsumerWidget {
         horizontalThresholdPercentage,
         verticalThresholdPercentage,
       ) =>
-          CardWidget(card: ref.watch(deck)[index], game: this),
+          CardWidget(code: ref.watch(deck)[index], game: this),
     );
 
     return Scaffold(
