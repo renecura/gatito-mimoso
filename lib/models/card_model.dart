@@ -37,33 +37,49 @@ class CardModel {
 
 final cartas = {
   'G001': CardModel(
-      tipo: tipoEvento,
-      titulo: "Estanflación",
-      descripcion:
-          "Lo bueno es que ahora que no tenés laburo no importa que los precios se hayan ido a la mierda."),
+    tipo: tipoEvento,
+    titulo: "Estanflación",
+    descripcion:
+        "Lo bueno es que ahora que no tenés laburo no importa que los precios se hayan ido a la mierda.",
+    consecuenciasAceptar: "+G,+G,@G001",
+    consecuenciasRechazar: "+G,@G001",
+    consecuenciasPostergar: "",
+  ),
   'E001': CardModel(
     tipo: tipoEstablishment,
     titulo: "Dolarización",
     rechazar: false,
     descripcion:
         "Te vamos a hacer un favor, vamos a dejarte usar nuestra moneda. Si necesitás más... pedinos.",
-    consecuenciasAceptar: "+C,@G001",
-    consecuenciasRechazar: "-C,@G001",
+    consecuenciasAceptar: "+E,@G001",
+    consecuenciasRechazar: "-E,@G001",
     consecuenciasPostergar: "@E001",
   ),
   'C001': CardModel(
-      tipo: tipoCasta,
-      titulo: "Solidaridad hermano",
-      descripcion:
-          "Miralo pobrecito, anda sin laburo. Fijate si tenés un lugarcito en algún ministerio."),
+    tipo: tipoCasta,
+    titulo: "Solidaridad hermano",
+    descripcion:
+        "Miralo pobrecito, anda sin laburo. Fijate si tenés un lugarcito en algún ministerio.",
+    consecuenciasAceptar: "+C,@G001",
+    consecuenciasRechazar: "-C,@G001",
+    consecuenciasPostergar: "@C001",
+  ),
   'F001': CardModel(
-      tipo: tipoFuerzas,
-      titulo: "¿¡Un K-Puto!?",
-      descripcion:
-          "Sabes que ver dos hombres besandose nos hace doler la panza, y si es K, todavía más. ¡Rajalo ya!."),
+    tipo: tipoFuerzas,
+    titulo: "¿¡Un K-Puto!?",
+    descripcion:
+        "Sabes que ver dos hombres besandose nos hace doler la panza, y si es K, todavía más. ¡Rajalo ya!.",
+    consecuenciasAceptar: "+F,@G001",
+    consecuenciasRechazar: "-F,@G001",
+    consecuenciasPostergar: "@F001",
+  ),
   'G002': CardModel(
-      tipo: tipoEvento,
-      titulo: "Cuando la vida te da...",
-      descripcion:
-          "Tu esbirra influencer convence a un montón de followers para ir a probar que la tierra es plana. Inesperadamente tenía razón y lo descubre cuando todos caen por el borde de la tierra y mueren en el espacio."),
+    tipo: tipoEvento,
+    titulo: "Cuando la vida te da...",
+    descripcion:
+        "Tu esbirra influencer convence a un montón de followers para ir a probar que la tierra es plana. Inesperadamente tenía razón y lo descubre cuando todos caen por el borde de la tierra y mueren en el espacio.",
+    consecuenciasAceptar: "+G,+G,@G001",
+    consecuenciasRechazar: "-G,@G001",
+    consecuenciasPostergar: "@G002",
+  ),
 };

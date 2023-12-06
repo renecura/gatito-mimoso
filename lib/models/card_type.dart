@@ -10,23 +10,20 @@ class CardType {
 
 final CardType tipoCasta = CardType(
   nombre: 'La Casta',
-  color: [patronColors[casta], patronColors[casta].withOpacity(0.3)],
+  color: [casta.color, casta.color.withOpacity(0.3)],
 );
 
 final CardType tipoFuerzas = CardType(
   nombre: 'Las Fuerzas',
-  color: [patronColors[fuerzas], patronColors[fuerzas].withOpacity(0.3)],
+  color: [fuerzas.color, fuerzas.color.withOpacity(0.3)],
 );
 
 final CardType tipoEstablishment = CardType(
   nombre: 'El Establishment',
-  color: [
-    patronColors[establishment],
-    patronColors[establishment].withOpacity(0.3)
-  ],
+  color: [establishment.color, establishment.color.withOpacity(0.3)],
 );
 
 final CardType tipoEvento = CardType(
   nombre: '¡Evento!',
-  color: [patronColors[gente], patronColors[gente].withOpacity(0.3)],
+  color: [gente.color, gente.color.withOpacity(0.3)],
 );

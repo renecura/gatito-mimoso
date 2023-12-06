@@ -1,25 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gatito_mimoso/models/patron_model.dart';
+import 'package:gatito_mimoso/termometros/gentebar.dart';
 
 import 'card.dart';
 import 'constants.dart';
+import 'game_state.dart';
 import 'models/card_model.dart';
-
-final valorCasta = StateProvider<double>((ref) => 0.5);
-final valorFuerzas = StateProvider<double>((ref) => 0.5);
-final valorEstablishment = StateProvider<double>((ref) => 0.5);
-final valorGente = StateProvider<double>((ref) => 0.5);
-
-final deck =
-    StateProvider<List<String>>((ref) => ['C001', 'E001', 'F001', 'G001']);
-
-final valores = {
-  'C': valorCasta,
-  'F': valorFuerzas,
-  'E': valorEstablishment,
-  'G': valorGente,
-};
+import 'termometros/patronbar.dart';
 
 class Game extends ConsumerWidget {
   final CardSwiperController controller = CardSwiperController();
@@ -31,11 +20,11 @@ class Game extends ConsumerWidget {
   postergar() => controller.swipeTop();
 
   agregarCarta(String code, WidgetRef ref) {
-    ref.read(deck.notifier).state.add(code);
+    ref.read(deckProvider.notifier).update((state) => [...state, code]);
   }
 
-  modificarValor(String target, double delta, WidgetRef ref) {
-    ref.read(valores[target]!.notifier).state += delta;
+  modificarValor(PatronModel patron, double delta, WidgetRef ref) {
+    ref.read(valorProviders[patron]!.notifier).state += delta;
   }
 
   AccionCarta swipeToAction(CardSwiperDirection direction) {
@@ -63,13 +52,17 @@ class Game extends ConsumerWidget {
 
       switch (op) {
         case "+":
-          modificarValor(arg, 0.1, ref);
+          debugPrint("Incrementar $arg");
+          modificarValor(patron(arg), 0.1, ref);
           break;
         case "-":
-          modificarValor(arg, -0.1, ref);
+          debugPrint("Decrementar $arg");
+          modificarValor(patron(arg), -0.1, ref);
           break;
         case "@":
+          debugPrint("Agregar carta $arg");
           agregarCarta(arg, ref);
+          break;
         default:
           debugPrint("Consecuencia desconocida.");
       }
@@ -82,11 +75,9 @@ class Game extends ConsumerWidget {
     int? currentIndex,
     CardSwiperDirection direction,
   ) {
-    debugPrint(
-      'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
-    );
+    debugPrint("El index: $previousIndex");
     resolverCarta(
-      ref.watch(deck)[previousIndex],
+      ref.watch(deckProvider)[previousIndex],
       swipeToAction(direction),
       ref,
     );
@@ -111,36 +102,19 @@ class Game extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          PatronBar(index: casta, value: ref.watch(valorCasta)),
-          PatronBar(index: fuerzas, value: ref.watch(valorFuerzas)),
-          PatronBar(index: establishment, value: ref.watch(valorEstablishment)),
+          PatronBar(patron: casta),
+          PatronBar(patron: fuerzas),
+          PatronBar(patron: establishment),
         ],
       ),
     );
 
-    Widget pueblo = Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Flexible(
-            flex: 10,
-            child: LinearProgressIndicator(
-              borderRadius: BorderRadius.circular(10),
-              color: patronColors[gente],
-              value: ref.watch(valorGente),
-              minHeight: 12,
-            ),
-          ),
-          const Spacer(),
-          const Icon(Icons.groups, size: 48),
-        ],
-      ),
-    );
+    List<String> deck = ref.watch(deckProvider);
+    debugPrint("Rebuild swiper: ${deck.toString()}");
 
     CardSwiper swiper = CardSwiper(
       controller: controller,
-      cardsCount: ref.watch(deck).length,
+      cardsCount: deck.length,
       onSwipe: (prev, curr, dir) => _onSwipe(ref, prev, curr, dir),
       onUndo: _onUndo,
       numberOfCardsDisplayed: 3,
@@ -154,7 +128,7 @@ class Game extends ConsumerWidget {
         horizontalThresholdPercentage,
         verticalThresholdPercentage,
       ) =>
-          CardWidget(code: ref.watch(deck)[index], game: this),
+          CardWidget(code: deck[index], game: this),
     );
 
     return Scaffold(
@@ -163,7 +137,7 @@ class Game extends ConsumerWidget {
           children: [
             const Spacer(flex: 2),
             patrones,
-            pueblo,
+            const GenteBar(),
             const Spacer(flex: 2),
             Flexible(flex: 20, child: swiper),
             Container(height: 150),
@@ -184,35 +158,6 @@ class Game extends ConsumerWidget {
         child: const Icon(Icons.pets),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-    );
-  }
-}
-
-class PatronBar extends StatelessWidget {
-  final int index;
-  final double value;
-
-  const PatronBar({
-    super.key,
-    required this.index,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Icon(patronIcons[index], size: 48),
-        CircularProgressIndicator(
-          strokeWidth: 12,
-          strokeAlign: 4.5,
-          strokeCap: StrokeCap.round,
-          color: patronColors[index],
-          backgroundColor: patronColors[index].withOpacity(0.2),
-          value: value,
-        ),
-      ],
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gatito_mimoso/models/card_type.dart';
 import 'game.dart';
+import 'models/card_type.dart';
 import 'models/card_model.dart';
 
 class CardWidget extends StatelessWidget {
