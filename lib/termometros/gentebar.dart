@@ -28,6 +28,7 @@ class GenteBar extends ConsumerWidget {
     'Se robaron todo',
     'Hay que respetar el voto pupular',
     '¡Populismo!',
+    "'Garrá la pala",
   ];
 
   GenteBar({super.key});

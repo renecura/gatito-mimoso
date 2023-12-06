@@ -27,6 +27,17 @@ class Game extends ConsumerWidget {
     ref.read(valorProviders[patron]!.notifier).state += delta;
   }
 
+  modificarAnsiedad(int delta, WidgetRef ref) {
+    int ansiedad = ref.read(ansiedadProvider);
+
+    if ((ansiedad + delta) <= 1) {
+      ref.read(ansiedadProvider.notifier).state = 1;
+      return;
+    }
+
+    ref.read(ansiedadProvider.notifier).state += delta;
+  }
+
   AccionCarta swipeToAction(CardSwiperDirection direction) {
     switch (direction) {
       case CardSwiperDirection.left:
@@ -52,15 +63,20 @@ class Game extends ConsumerWidget {
 
       switch (op) {
         case "+":
-          debugPrint("Incrementar $arg");
+          if (arg == 'A') {
+            modificarAnsiedad(1, ref);
+            break;
+          }
           modificarValor(patron(arg), 0.1, ref);
           break;
         case "-":
-          debugPrint("Decrementar $arg");
+          if (arg == 'A') {
+            modificarAnsiedad(-1, ref);
+            break;
+          }
           modificarValor(patron(arg), -0.1, ref);
           break;
         case "@":
-          debugPrint("Agregar carta $arg");
           agregarCarta(arg, ref);
           break;
         default:
@@ -133,6 +149,9 @@ class Game extends ConsumerWidget {
 
     final genteBar = GenteBar();
 
+    final ansiedad = ref.watch(ansiedadProvider);
+    debugPrint('Ansiedad: $ansiedad');
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -147,7 +166,7 @@ class Game extends ConsumerWidget {
               child: Container(
                 height: 150,
                 alignment: Alignment.centerRight,
-                child: Image.asset('assets/images/fuerzas_icon.jpeg'),
+                child: Image.asset('assets/images/gatito/gatito0$ansiedad.png'),
               ),
             ),
           ],
@@ -161,7 +180,7 @@ class Game extends ConsumerWidget {
         shape: const CircleBorder(),
         onPressed: () {
           debugPrint("Miau!");
-          genteBar.reaccionKey.currentState?.ensureTooltipVisible();
+          modificarAnsiedad(-3, ref);
         },
         tooltip: '¡Power ups!',
         child: const Icon(Icons.pets),

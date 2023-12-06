@@ -43,7 +43,7 @@ final cartas = {
         "Lo bueno es que ahora que no tenés laburo no importa que los precios se hayan ido a la mierda.",
     consecuenciasAceptar: "+G,+G,@G001",
     consecuenciasRechazar: "+G,@G001",
-    consecuenciasPostergar: "",
+    consecuenciasPostergar: "+A",
   ),
   'E001': CardModel(
     tipo: tipoEstablishment,
@@ -53,7 +53,7 @@ final cartas = {
         "Te vamos a hacer un favor, vamos a dejarte usar nuestra moneda. Si necesitás más... pedinos.",
     consecuenciasAceptar: "+E,@G001",
     consecuenciasRechazar: "-E,@G001",
-    consecuenciasPostergar: "@E001",
+    consecuenciasPostergar: "+A,@E001",
   ),
   'C001': CardModel(
     tipo: tipoCasta,
@@ -71,7 +71,7 @@ final cartas = {
         "Sabes que ver dos hombres besandose nos hace doler la panza, y si es K, todavía más. ¡Rajalo ya!.",
     consecuenciasAceptar: "+F,@G001",
     consecuenciasRechazar: "-F,@G001",
-    consecuenciasPostergar: "@F001",
+    consecuenciasPostergar: "+A,@F001",
   ),
   'G002': CardModel(
     tipo: tipoEvento,
