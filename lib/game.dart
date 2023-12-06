@@ -131,13 +131,15 @@ class Game extends ConsumerWidget {
           CardWidget(code: deck[index], game: this),
     );
 
+    final genteBar = GenteBar();
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             const Spacer(flex: 2),
             patrones,
-            const GenteBar(),
+            genteBar,
             const Spacer(flex: 2),
             Flexible(flex: 20, child: swiper),
             Container(height: 150),
@@ -152,7 +154,7 @@ class Game extends ConsumerWidget {
         shape: const CircleBorder(),
         onPressed: () {
           debugPrint("Miau!");
-          controller.swipeLeft();
+          genteBar.reaccionKey.currentState?.ensureTooltipVisible();
         },
         tooltip: '¡Power ups!',
         child: const Icon(Icons.pets),
