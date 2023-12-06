@@ -142,7 +142,14 @@ class Game extends ConsumerWidget {
             genteBar,
             const Spacer(flex: 2),
             Flexible(flex: 20, child: swiper),
-            Container(height: 150),
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Container(
+                height: 150,
+                alignment: Alignment.centerRight,
+                child: Image.asset('assets/images/fuerzas_icon.jpeg'),
+              ),
+            ),
           ],
         ),
       ),

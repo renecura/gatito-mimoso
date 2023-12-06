@@ -17,6 +17,17 @@ class GenteBar extends ConsumerWidget {
     'Lloren, lloren',
     'Ahora van a tener que laburar',
     'Yo igual me tengo que levantar a trabajar',
+    'Necesitabamos un cambio',
+    'Nah, igual eso no lo va a hacer',
+    'Necesita tiempo...',
+    '¡Piden democracia y lo quieren tumbar!',
+    'Jua jua ¡La domaron!',
+    '¡Polenta!',
+    'Te mataban por un celular',
+    'Era tierra de nadie',
+    'Se robaron todo',
+    'Hay que respetar el voto pupular',
+    '¡Populismo!',
   ];
 
   GenteBar({super.key});
