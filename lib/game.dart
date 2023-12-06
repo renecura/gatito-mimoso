@@ -6,6 +6,7 @@ import 'package:gatito_mimoso/termometros/gentebar.dart';
 
 import 'card.dart';
 import 'constants.dart';
+import 'dialogs/clona_dialog.dart';
 import 'game_state.dart';
 import 'models/card_model.dart';
 import 'termometros/patronbar.dart';
@@ -36,6 +37,11 @@ class Game extends ConsumerWidget {
     }
 
     ref.read(ansiedadProvider.notifier).state += delta;
+  }
+
+  meterseClona(WidgetRef ref) {
+    modificarAnsiedad(-3, ref);
+    ref.read(clonasProvider.notifier).state--;
   }
 
   AccionCarta swipeToAction(CardSwiperDirection direction) {
@@ -172,18 +178,25 @@ class Game extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Container(height: 50.0),
+      bottomNavigationBar: const BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        height: 40,
       ),
-      floatingActionButton: FloatingActionButton.large(
-        shape: const CircleBorder(),
-        onPressed: () {
-          debugPrint("Miau!");
-          modificarAnsiedad(-3, ref);
-        },
-        tooltip: '¡Power ups!',
-        child: const Icon(Icons.pets),
+      floatingActionButton: Badge.count(
+        count: ref.watch(clonasProvider),
+        child: FloatingActionButton(
+          shape: const CircleBorder(),
+          onPressed: ref.watch(clonasProvider) <= 0
+              ? null
+              : () => showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) =>
+                        ClonaDialog(accion: () => meterseClona(ref)),
+                  ),
+          tooltip: '¡Power ups!',
+          child: const Icon(Icons.pets),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );

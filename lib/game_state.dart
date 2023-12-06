@@ -9,6 +9,7 @@ final valorProviders = {
 };
 
 final ansiedadProvider = StateProvider<int>((ref) => 2);
+final clonasProvider = StateProvider<int>((ref) => 7);
 
 final deckProvider =
     StateProvider<List<String>>((ref) => ['C001', 'E001', 'F001', 'G001']);
