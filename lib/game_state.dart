@@ -13,3 +13,15 @@ final clonasProvider = StateProvider<int>((ref) => 7);
 
 final deckProvider =
     StateProvider<List<String>>((ref) => ['C001', 'E001', 'F001', 'G001']);
+
+enum Status { ok, psicotico, casta, fuerzas, establishment }
+
+final statusProvider = StateProvider<Status>((ref) => Status.ok);
+
+void resetGame(WidgetRef ref) {
+  valorProviders.values.forEach(ref.invalidate);
+  ref.invalidate(deckProvider);
+  ref.invalidate(clonasProvider);
+  ref.invalidate(ansiedadProvider);
+  ref.invalidate(statusProvider);
+}

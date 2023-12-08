@@ -4,12 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gatito_mimoso/models/patron_model.dart';
 import 'package:gatito_mimoso/termometros/gentebar.dart';
 
-import 'card.dart';
-import 'constants.dart';
-import 'dialogs/clona_dialog.dart';
-import 'game_state.dart';
-import 'models/card_model.dart';
-import 'termometros/patronbar.dart';
+import '../card.dart';
+import '../constants.dart';
+import '../dialogs/clona_dialog.dart';
+import '../game_state.dart';
+import '../models/card_model.dart';
+import '../termometros/patronbar.dart';
+
+const maxAnsiedad = 3;
 
 class Game extends ConsumerWidget {
   final CardSwiperController controller = CardSwiperController();
@@ -29,14 +31,21 @@ class Game extends ConsumerWidget {
   }
 
   modificarAnsiedad(int delta, WidgetRef ref) {
-    int ansiedad = ref.read(ansiedadProvider);
+    ref.read(ansiedadProvider.notifier).update((state) {
+      debugPrint('Ansiedad: $state + $delta');
 
-    if ((ansiedad + delta) <= 1) {
-      ref.read(ansiedadProvider.notifier).state = 1;
-      return;
-    }
+      state += delta;
 
-    ref.read(ansiedadProvider.notifier).state += delta;
+      if (state >= maxAnsiedad) {
+        debugPrint("Borte psicótico");
+        ref.read(statusProvider.notifier).state = Status.psicotico;
+      }
+
+      if (state >= maxAnsiedad) return maxAnsiedad;
+      if (state <= 1) return 1;
+
+      return state;
+    });
   }
 
   meterseClona(WidgetRef ref) {
@@ -119,6 +128,16 @@ class Game extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(statusProvider);
+
+    if (status != Status.ok) {
+      debugPrint("Game over: $status");
+      Future.delayed(Durations.short1, () {
+        Navigator.popAndPushNamed(context, '/gameover');
+        resetGame(ref);
+      });
+    }
+
     Widget patrones = Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -156,7 +175,6 @@ class Game extends ConsumerWidget {
     final genteBar = GenteBar();
 
     final ansiedad = ref.watch(ansiedadProvider);
-    debugPrint('Ansiedad: $ansiedad');
 
     return Scaffold(
       body: SafeArea(

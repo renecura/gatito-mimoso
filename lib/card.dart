@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'game.dart';
+import 'pages/game.dart';
 import 'models/card_type.dart';
 import 'models/card_model.dart';
 
