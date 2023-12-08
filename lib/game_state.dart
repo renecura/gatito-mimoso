@@ -14,7 +14,7 @@ final clonasProvider = StateProvider<int>((ref) => 7);
 final deckProvider =
     StateProvider<List<String>>((ref) => ['C001', 'E001', 'F001', 'G001']);
 
-enum Status { ok, psicotico, casta, fuerzas, establishment }
+enum Status { ok, psicotico, casta, fuerzas, establishment, gente }
 
 final statusProvider = StateProvider<Status>((ref) => Status.ok);
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +13,7 @@ import '../game_state.dart';
 import '../models/card_model.dart';
 import '../termometros/patronbar.dart';
 
-const maxAnsiedad = 3;
+const maxAnsiedad = 6;
 
 class Game extends ConsumerWidget {
   final CardSwiperController controller = CardSwiperController();
@@ -22,12 +24,24 @@ class Game extends ConsumerWidget {
   rechazar() => controller.swipeLeft();
   postergar() => controller.swipeTop();
 
+  gameOver(Status status, WidgetRef ref) {
+    ref.read(statusProvider.notifier).state = status;
+  }
+
   agregarCarta(String code, WidgetRef ref) {
     ref.read(deckProvider.notifier).update((state) => [...state, code]);
   }
 
   modificarValor(PatronModel patron, double delta, WidgetRef ref) {
-    ref.read(valorProviders[patron]!.notifier).state += delta;
+    ref.read(valorProviders[patron]!.notifier).update((state) {
+      state = min(1.0, state + delta);
+
+      if (state <= 0) {
+        gameOver(patron.status, ref);
+      }
+
+      return state;
+    });
   }
 
   modificarAnsiedad(int delta, WidgetRef ref) {
@@ -37,8 +51,7 @@ class Game extends ConsumerWidget {
       state += delta;
 
       if (state >= maxAnsiedad) {
-        debugPrint("Borte psicótico");
-        ref.read(statusProvider.notifier).state = Status.psicotico;
+        gameOver(Status.psicotico, ref);
       }
 
       if (state >= maxAnsiedad) return maxAnsiedad;
@@ -134,7 +147,6 @@ class Game extends ConsumerWidget {
       debugPrint("Game over: $status");
       Future.delayed(Durations.short1, () {
         Navigator.popAndPushNamed(context, '/gameover');
-        resetGame(ref);
       });
     }
 
