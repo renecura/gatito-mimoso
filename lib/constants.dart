@@ -4,7 +4,7 @@ import 'models/patron_model.dart';
 
 final gente = PatronModel(
   id: 'G',
-  color: Colors.red.shade900,
+  color: const Color.fromARGB(255, 226, 43, 43),
   icon: Icons.group,
   status: Status.gente,
 );

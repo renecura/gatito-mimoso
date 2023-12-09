@@ -6,7 +6,7 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(155, 229, 244, 1),
+      backgroundColor: Color.fromRGBO(244, 224, 255, 1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +23,6 @@ class Menu extends StatelessWidget {
                 padding: EdgeInsets.all(20.0),
               ),
               onPressed: () {
-                // Lógica para el primer botón (por ejemplo, iniciar juego)
                 Navigator.pushNamed(context, '/game');
               },
               child: const Text('Jugar', style: TextStyle(fontSize: 18.0)),
@@ -39,7 +38,7 @@ class Menu extends StatelessWidget {
                 padding: EdgeInsets.all(20.0),
               ),
               onPressed: () {
-                // Lógica para el tercer botón (por ejemplo, mostrar créditos)
+                Navigator.pushNamed(context, '/creditos');
               },
               child: const Text('Créditos', style: TextStyle(fontSize: 18.0)),
             ),

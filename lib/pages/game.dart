@@ -189,7 +189,7 @@ class Game extends ConsumerWidget {
     final ansiedad = ref.watch(ansiedadProvider);
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(155, 229, 244, 1),
+      backgroundColor: Color.fromRGBO(244, 224, 255, 1),
       body: SafeArea(
         child: Column(
           children: [
