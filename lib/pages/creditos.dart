@@ -5,16 +5,16 @@ class CreditosPage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 252, 224, 1),
+      backgroundColor: Color.fromRGBO(244, 224, 255, 1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 20),
-            const Text('Desarrollado por:', style: TextStyle(fontSize: 24.0)),
+            const Text('Desarrollado por:', style: TextStyle(fontSize: 20.0)),
             const Text('Rodrigo Rene Cura y Ariel Andres',
-                style: TextStyle(fontSize: 24.0)),
+                style: TextStyle(fontSize: 20.0)),
             SizedBox(height: 100),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
