@@ -5,25 +5,25 @@ import 'models/patron_model.dart';
 final gente = PatronModel(
   id: 'G',
   color: Colors.red.shade900,
-  icon: Icons.group,
+  imagePath: 'assets/images/gatito/gatito06.png',
   status: Status.gente,
 );
 final casta = PatronModel(
   id: 'C',
   color: Colors.amber,
-  icon: Icons.supervisor_account,
+  imagePath: 'assets/images/casta_icon.png',
   status: Status.casta,
 );
 final fuerzas = PatronModel(
   id: 'F',
   color: Colors.green.shade800,
-  icon: Icons.military_tech,
+  imagePath: 'assets/images/fuerzas_icon.jpeg',
   status: Status.fuerzas,
 );
 final establishment = PatronModel(
   id: 'E',
   color: Colors.deepPurple,
-  icon: Icons.account_balance,
+  imagePath: 'assets/images/icon_establishment.png',
   status: Status.establishment,
 );
 
