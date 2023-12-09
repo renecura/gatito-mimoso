@@ -13,6 +13,7 @@ class ClonaDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset('assets/images/gatito/gatito06.png'),
+          Image.asset('assets/images/clonazelcan.png'),
           const Text(
               "Madura el brote psicótico. Empastillate un toque para bajar la ansiedad"),
           const Text("(reduce hasta 3 niveles)"),
@@ -24,7 +25,7 @@ class ClonaDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context, 'Cancel'),
         ),
         TextButton(
-          child: const Text("¡Venga!"),
+          child: const Text("¡Atroden!"),
           onPressed: () {
             accion();
             Navigator.pop(context, 'OK');

@@ -10,19 +10,19 @@ final gente = PatronModel(
 );
 final casta = PatronModel(
   id: 'C',
-  color: Colors.amber,
+  color: Color.fromRGBO(226, 224, 82, 1),
   imagePath: 'assets/images/casta_icon.png',
   status: Status.casta,
 );
 final fuerzas = PatronModel(
   id: 'F',
-  color: Colors.green.shade800,
+  color: Color.fromRGBO(99, 216, 92, 1),
   imagePath: 'assets/images/gorra.png',
   status: Status.fuerzas,
 );
 final establishment = PatronModel(
   id: 'E',
-  color: Colors.deepPurple,
+  color: Color.fromRGBO(55, 105, 222, 1),
   imagePath: 'assets/images/icon_establishment.png',
   status: Status.establishment,
 );
