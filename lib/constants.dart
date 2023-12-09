@@ -5,7 +5,7 @@ import 'models/patron_model.dart';
 final gente = PatronModel(
   id: 'G',
   color: Colors.red.shade900,
-  imagePath: 'assets/images/gatito/gatito06.png',
+  icon: Icons.group,
   status: Status.gente,
 );
 final casta = PatronModel(
@@ -17,7 +17,7 @@ final casta = PatronModel(
 final fuerzas = PatronModel(
   id: 'F',
   color: Colors.green.shade800,
-  imagePath: 'assets/images/fuerzas_icon.jpeg',
+  imagePath: 'assets/images/gorra.png',
   status: Status.fuerzas,
 );
 final establishment = PatronModel(

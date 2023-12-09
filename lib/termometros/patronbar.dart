@@ -20,14 +20,13 @@ class PatronBar extends ConsumerWidget {
         if (patron.icon != null)
           Icon(
             patron.icon,
-            size: 48,
+            size: 100,
           )
         else if (patron.imagePath != null)
           Image.asset(
             patron.imagePath!,
-            width: 48,
-            height: 48,
-            // Puedes agregar más propiedades según sea necesario
+            width: 100,
+            height: 100,
           ),
         CircularProgressIndicator(
           strokeWidth: 12,
