@@ -12,7 +12,6 @@ class ClonaDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/images/gatito/gatito06.png'),
           Image.asset('assets/images/clonazelcan.png'),
           const Text(
               "Madura el brote psicótico. Empastillate un toque para bajar la ansiedad"),

@@ -12,6 +12,7 @@ class Menu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Image.asset('assets/images/titulo.png'),
             SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
